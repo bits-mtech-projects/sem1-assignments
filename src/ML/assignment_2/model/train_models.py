@@ -114,11 +114,11 @@ def get_models():
     return {
         "Logistic Regression": LogisticRegression(max_iter=2000, class_weight="balanced"),
         # TODO: add the other 4 models here, e.g.
-        # "Decision Tree": DecisionTreeClassifier(class_weight="balanced", random_state=RANDOM_STATE),
-        # "kNN": KNeighborsClassifier(n_neighbors=15),
-        # "Naive Bayes": GaussianNB(),
-        # "Random Forest": RandomForestClassifier(n_estimators=200, class_weight="balanced",
-        #                                         random_state=RANDOM_STATE, n_jobs=-1),
+        "Decision Tree": DecisionTreeClassifier(class_weight="balanced", random_state=RANDOM_STATE),
+        "kNN": KNeighborsClassifier(n_neighbors=15),
+        "Naive Bayes": GaussianNB(),
+        "Random Forest": RandomForestClassifier(n_estimators=150,max_depth=20, class_weight="balanced",
+                                                 random_state=RANDOM_STATE, n_jobs=-1),
     }
 
 
@@ -164,7 +164,7 @@ def main():
         pipe = Pipeline([("pre", clone(preprocessor)), ("clf", clf)])
         pipe.fit(X_train, y_train)
         slug = name.lower().replace(" ", "_")
-        joblib.dump(pipe, HERE / f"{slug}.joblib")
+        joblib.dump(pipe, HERE / f"{slug}.joblib", compress=3)
         results[name] = evaluate(pipe, X_test, y_test)
         print(f"  {name:<22} {results[name]}")
 
