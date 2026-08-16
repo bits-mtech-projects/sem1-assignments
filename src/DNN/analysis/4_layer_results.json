@@ -1,0 +1,79 @@
+======================================================================
+ASSIGNMENT RESULTS SUMMARY
+======================================================================
+{
+  "dataset_name": "Default of Credit Card Clients Dataset",
+  "dataset_source": "https://www.kaggle.com/datasets/uciml/default-of-credit-card-clients-dataset/data",
+  "n_samples": 30000,
+  "n_features": 23,
+  "problem_type": "binary_classification",
+  "problem_statement": "\n\"This dataset predicts whether a credit-card client defaults next month from 23 features (credit limit, demographics, and six months of repayment, bill, and payment history). It is a binary classification problem with 30,000 samples and ~22% positive class. I use Recall (and F1) as the primary metric: a bank's costly error is a false negative \u2014 failing to flag a client who then defaults, so I optimise for catching defaulters, while watching F1 to keep false alarms in check. Plain accuracy is misleading here because predicting 'no default' for everyone already yields 78%.\"\n",
+  "primary_metric": "recall",
+  "metric_justification": "\nI use Recall as the primary metric because the costliest error for a bank is a false negative \u2014 failing to flag a client who then defaults, resulting in direct financial loss. Plain accuracy is misleading here since predicting \"no default\" for every customer already yields 78% accuracy while catching zero actual defaulters. F1 is tracked alongside to ensure the model doesn't achieve high recall by simply flagging everyone, keeping false alarms in check.\n",
+  "train_samples": 24000,
+  "test_samples": 6000,
+  "train_test_ratio": 0.8,
+  "baseline_model": {
+    "model_type": "logistic_regression",
+    "learning_rate": 0.01,
+    "n_iterations": 1000,
+    "initial_loss": 0.6931471785599455,
+    "final_loss": 0.47209379377297866,
+    "training_time_seconds": 0.655,
+    "test_accuracy": 0.8063333333333333,
+    "test_precision": 0.6729559748427673,
+    "test_recall": 0.24189902034664656,
+    "test_f1": 0.3558758314855876,
+    "test_mse": 0.0,
+    "test_rmse": 0.0,
+    "test_mae": 0.0,
+    "test_r2": 0.0
+  },
+  "mlp_model": {
+    "architecture": [
+      30,
+      32,
+      16,
+      8,
+      4,
+      1
+    ],
+    "n_hidden_layers": 4,
+    "total_parameters": 1697,
+    "learning_rate": 0.1,
+    "n_iterations": 1000,
+    "initial_loss": 0.5780764227565008,
+    "final_loss": 0.43138677591604163,
+    "training_time_seconds": 11.275,
+    "test_accuracy": 0.8126666666666666,
+    "test_precision": 0.6369770580296896,
+    "test_recall": 0.3556895252449133,
+    "test_f1": 0.45647969052224374,
+    "test_mse": 0.0,
+    "test_rmse": 0.0,
+    "test_mae": 0.0,
+    "test_r2": 0.0
+  },
+  "improvement": 0.1138,
+  "improvement_percentage": 47.04,
+  "baseline_better": false,
+  "analysis": "The MLP outperformed logistic regression on the primary metric, improving recall from 24.2% to 35.6% \u2014 a 47.0% relative gain \u2014 and F1 from 0.356 to 0.456. Accuracy was comparable (80.6% vs 81.3%), confirming that accuracy alone is misleading on imbalanced data. The MLP wins because default risk has mildly non-linear structure: interactions between repayment status and bill-to-payment ratios that a single hyperplane cannot capture, but hidden ReLU layers can. The cost is compute \u2014 the MLP took 11.27s versus 0.65s for logistic regression, roughly 17x slower, since each iteration runs a full forward and backward pass through three weight matrices instead of one dot product. The biggest challenge was numerical stability: clipping the sigmoid and adding epsilon inside the log were necessary to prevent NaN. Scaling features was also critical \u2014 without StandardScaler, the loss exploded instead of decreasing.",
+  "analysis_word_count": 140,
+  "baseline_loss_decreased": "True",
+  "mlp_loss_decreased": "True",
+  "baseline_converged": true,
+  "mlp_converged": true
+}
+
+======================================================================
+✅ All required fields are filled!
+
+🎉 You're ready to submit!
+
+Next steps:
+1. Kernel → Restart & Clear Output
+2. Kernel → Restart & Run All
+3. Verify no errors
+4. Save notebook
+5. Rename as: YourStudentID_assignment.ipynb
+6. Submit to LMS

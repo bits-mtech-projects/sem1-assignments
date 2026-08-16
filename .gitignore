@@ -1,0 +1,31 @@
+# Virtual environments (large — never commit)
+.venv/
+.venv-cnn/
+venv/
+env/
+
+# IDE / editor
+.idea/
+.vscode/
+*.iml
+
+# Claude / tooling config
+.claude/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Local datasets / large data (keep small test CSVs tracked explicitly)
+/data/
+*.zip
+
+# Keras / TF downloaded datasets & model caches
+*.h5
+*.keras
