@@ -23,8 +23,6 @@ __pycache__/
 Thumbs.db
 
 # Local datasets / large data (keep small test CSVs tracked explicitly)
-/data/
-*.zip
 
 # Keras / TF downloaded datasets & model caches
 *.h5
