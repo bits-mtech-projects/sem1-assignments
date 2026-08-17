@@ -1,0 +1,12 @@
+# Pinned to the versions the models were trained with.
+# scikit-learn / numpy / scipy / joblib are pinned EXACTLY so the saved
+# .joblib pipelines unpickle correctly on Streamlit Cloud.
+# Recommended runtime on Streamlit Cloud: Python 3.12
+streamlit==1.61.1
+scikit-learn==1.9.0
+numpy==2.5.1
+scipy==1.18.0
+joblib==1.5.3
+pandas==3.0.5
+matplotlib==3.11.1
+seaborn==0.13.2

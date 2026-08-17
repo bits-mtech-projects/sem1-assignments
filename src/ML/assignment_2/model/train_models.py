@@ -157,6 +157,14 @@ def main():
         X, y, test_size=TEST_SIZE, stratify=y, random_state=RANDOM_STATE
     )
 
+    # Export the held-out test set for the Streamlit app.
+    # Same split as evaluation -> the app's metrics will match metrics.json / README.
+    # y is written back as the original "yes"/"no" labels for readability; the app re-encodes.
+    test_df = X_test.copy()
+    test_df["y"] = y_test.map({1: "yes", 0: "no"})
+    test_df.to_csv(HERE.parent / "test_data.csv", index=False)
+    print(f"Exported test_data.csv ({len(test_df)} rows)")
+
     preprocessor = build_preprocessor(X_train)
     results = {}
 
