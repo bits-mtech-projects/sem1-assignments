@@ -1,7 +1,7 @@
 """
 Train & evaluate 5 classification models on the Bank Marketing dataset.
 
-Fill in every TODO. When done, running this script should:
+
   1. load data/bank-full.csv
   2. drop the leaky `duration` column
   3. split into train/test (stratified)
@@ -54,10 +54,7 @@ RANDOM_STATE = 42
 # 1. Load data
 # ----------------------------------------------------------------------
 def load_data(path):
-    """Read the semicolon-separated CSV and return a DataFrame.
-
-    Hint: pd.read_csv(..., sep=";")
-    """
+    """Read the semicolon-separated Bank Marketing CSV into a DataFrame."""
     return pd.read_csv(path, sep=";")
 
 
@@ -65,11 +62,9 @@ def load_data(path):
 # 2. Split features / target
 # ----------------------------------------------------------------------
 def split_X_y(df):
-    """Return (X, y).
+    """Split into features X and binary target y (1 == subscribed).
 
-    - y: the `y` column, encoded to 0/1 (1 == POS_LABEL)
-    - X: all other columns; drop `duration` if DROP_DURATION
-    Hint: (df["y"] == POS_LABEL).astype(int)
+    The leaky `duration` column is removed when DROP_DURATION is set.
     """
     y = (df["y"] == POS_LABEL).astype(int)
     X = df.drop(columns=["y"])
@@ -82,13 +77,7 @@ def split_X_y(df):
 # 3. Preprocessing
 # ----------------------------------------------------------------------
 def build_preprocessor(X):
-    """Return a ColumnTransformer that:
-        - StandardScaler on numeric columns
-        - OneHotEncoder(handle_unknown="ignore") on categorical columns
-    Hints:
-        num_cols = X.select_dtypes(include="number").columns
-        cat_cols = X.select_dtypes(exclude="number").columns
-    """
+    """Standard-scale the numeric columns and one-hot encode the categorical ones."""
     num_cols = X.select_dtypes(include="number").columns.tolist()
     cat_cols = X.select_dtypes(exclude="number").columns.tolist()
     return ColumnTransformer([
@@ -101,19 +90,14 @@ def build_preprocessor(X):
 # 4. Models
 # ----------------------------------------------------------------------
 def get_models():
-    """Return an ordered dict {display_name: estimator} for the 5 models.
+    """Return the five classifiers keyed by display name.
 
-    Suggested (tune later):
-        Logistic Regression  -> LogisticRegression(max_iter=..., class_weight="balanced")
-        Decision Tree        -> DecisionTreeClassifier(class_weight="balanced", random_state=...)
-        kNN                  -> KNeighborsClassifier(n_neighbors=...)
-        Naive Bayes          -> GaussianNB()
-        Random Forest        -> RandomForestClassifier(n_estimators=..., class_weight="balanced", ...)
-    Note: kNN and GaussianNB do NOT accept class_weight.
+    class_weight="balanced" is applied to the models that support it
+    (Logistic Regression, Decision Tree, Random Forest) to offset the class
+    imbalance; kNN and Gaussian Naive Bayes do not accept that argument.
     """
     return {
         "Logistic Regression": LogisticRegression(max_iter=2000, class_weight="balanced"),
-        # TODO: add the other 4 models here, e.g.
         "Decision Tree": DecisionTreeClassifier(class_weight="balanced", random_state=RANDOM_STATE),
         "kNN": KNeighborsClassifier(n_neighbors=15),
         "Naive Bayes": GaussianNB(),
@@ -126,13 +110,10 @@ def get_models():
 # 5. Metrics
 # ----------------------------------------------------------------------
 def evaluate(pipe, X_test, y_test):
-    """Return a dict with keys: accuracy, auc, precision, recall, f1, mcc.
+    """Compute the six evaluation metrics for a fitted pipeline on the test set.
 
-    - Use pipe.predict(X_test) for the class predictions.
-    - Use pipe.predict_proba(X_test)[:, 1] for AUC.
-    - precision/recall/f1 for the positive class (pos_label=1 -> default binary).
-    - mcc via matthews_corrcoef.
-    Round to 4 decimals for readability.
+    Precision, recall and F1 are for the positive class; AUC uses predicted
+    probabilities. Values are rounded to 4 decimals.
     """
     pred = pipe.predict(X_test)
     proba = pipe.predict_proba(X_test)[:, 1]

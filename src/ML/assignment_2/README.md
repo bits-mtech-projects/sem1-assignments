@@ -60,7 +60,8 @@ _Precision / Recall / F1 are reported for the positive class (`yes`)._
 | **Overall Winner for your dataset?** | **Random Forest.** On this imbalanced problem, accuracy is misleading (kNN "wins" accuracy while being nearly useless at finding subscribers). Judged by the metrics that matter for imbalance — AUC, F1 and MCC — Random Forest is clearly best.                             |
 
 ## Live Streamlit App
-<!-- TODO: paste your deployed Streamlit Community Cloud URL here after deployment -->
+https://mohammad-uzair-ml-assignment-2.streamlit.app/
+
 
 ## Streamlit app features
 - **Upload test CSV** (falls back to the bundled `test_data.csv`)

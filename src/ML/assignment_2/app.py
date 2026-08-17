@@ -8,9 +8,6 @@ Loads the 5 pre-trained model pipelines and lets the user:
   - compare all 5 models on the same data.
 
 Run locally:  streamlit run app.py
-
->>> PERSONALIZE the marked spots (title / intro / your name) — the assignment
-    penalizes un-customized template apps.
 """
 
 from pathlib import Path
